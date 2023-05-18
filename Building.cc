@@ -41,3 +41,50 @@ bool Building::connectRoom(std::shared_ptr<Room> r1, std::shared_ptr<Room> r2)
     r2.get()->connectRoom(r1);
     return true;
 }
+
+void Building::initRooms()
+{
+    std::shared_ptr<Room> van = std::make_shared<Room>("Van");
+    std::shared_ptr<Room> hallway = std::make_shared<Room>("Hallway");
+    std::shared_ptr<Room> master_bedroom = std::make_shared<Room>("Master Bedroom");
+    std::shared_ptr<Room> boys_room = std::make_shared<Room>("Boy's Room");
+    std::shared_ptr<Room> bathroom = std::make_shared<Room>("Bathroom");
+    std::shared_ptr<Room> basement = std::make_shared<Room>("Basement");
+    std::shared_ptr<Room> basement_hallway = std::make_shared<Room>("Basement Hallway");
+    std::shared_ptr<Room> right_storage_room = std::make_shared<Room>("Right Storage Room");
+    std::shared_ptr<Room> left_storage_room = std::make_shared<Room>("Left Storage Room");
+    std::shared_ptr<Room> kitchen = std::make_shared<Room>("Kitchen");
+    std::shared_ptr<Room> living_room = std::make_shared<Room>("Living Room");
+    std::shared_ptr<Room> garage = std::make_shared<Room>("Garage");
+    std::shared_ptr<Room> utility_room = std::make_shared<Room>("Utility Room");
+    std::shared_ptr<Room> front_yard = std::make_shared<Room>("Front Yard");
+
+    addRoom(van);
+    addRoom(hallway);
+    addRoom(master_bedroom);
+    addRoom(boys_room);
+    addRoom(bathroom);
+    addRoom(basement);
+    addRoom(basement_hallway);
+    addRoom(right_storage_room);
+    addRoom(left_storage_room);
+    addRoom(kitchen);
+    addRoom(living_room);
+    addRoom(garage);
+    addRoom(utility_room);
+    addRoom(front_yard);
+
+    connectRoom(hallway, van);
+    connectRoom(hallway, master_bedroom);
+    connectRoom(hallway, boys_room);
+    connectRoom(hallway, bathroom);
+    connectRoom(hallway, kitchen);
+    connectRoom(hallway, basement);
+    connectRoom(basement_hallway, basement);
+    connectRoom(basement_hallway, right_storage_room);
+    connectRoom(basement_hallway, left_storage_room);
+    connectRoom(kitchen, living_room);
+    connectRoom(kitchen, garage);
+    connectRoom(garage, utility_room);
+    connectRoom(front_yard, van);
+}

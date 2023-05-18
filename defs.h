@@ -15,6 +15,7 @@
 #include <ostream>
 #include <memory>
 #include <iostream>
+#include <vector>
 
 typedef enum
 {

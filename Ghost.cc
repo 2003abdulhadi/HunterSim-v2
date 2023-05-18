@@ -1,6 +1,6 @@
 #include "Ghost.h"
 
-Ghost::Ghost() : boredom(0) {}
+Ghost::Ghost() {}
 
 void Ghost::setRoom(std::shared_ptr<Room> r)
 {

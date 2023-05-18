@@ -14,9 +14,11 @@ public:
     ~Building();
     void addHunter(std::shared_ptr<Hunter>);
     void addGhost(std::shared_ptr<Ghost>);
+    void initRooms();
+    std::shared_ptr<Room> getRoom(std::string);
+private:
     void addRoom(std::shared_ptr<Room>);
     bool connectRoom(std::shared_ptr<Room>, std::shared_ptr<Room>);
-private:
     std::unordered_map<std::shared_ptr<Room>, std::set<std::weak_ptr<Room>>> rooms;
     std::unordered_set<std::shared_ptr<Hunter>> hunters;
     std::shared_ptr<Ghost> ghost;
