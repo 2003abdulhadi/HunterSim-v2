@@ -42,6 +42,13 @@ bool Building::connectRoom(std::shared_ptr<Room> r1, std::shared_ptr<Room> r2)
     return true;
 }
 
+const std::shared_ptr<Room>& Building::getRoom(std::string n)
+{
+    for(auto& node : rooms)
+        if(node.first.get()->getName() == n)
+            return node.first;
+}
+
 void Building::initRooms()
 {
     std::shared_ptr<Room> van = std::make_shared<Room>("Van");

@@ -15,7 +15,7 @@ public:
     void addHunter(std::shared_ptr<Hunter>);
     void addGhost(std::shared_ptr<Ghost>);
     void initRooms();
-    std::shared_ptr<Room> getRoom(std::string);
+    const std::shared_ptr<Room>& getRoom(std::string);
 private:
     void addRoom(std::shared_ptr<Room>);
     bool connectRoom(std::shared_ptr<Room>, std::shared_ptr<Room>);

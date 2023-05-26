@@ -13,6 +13,7 @@ public:
     ~Control();
     void launch();
 private:
+    
     std::unique_ptr<Building> building;
     std::unordered_set<std::shared_ptr<Hunter>> hunters;
     std::shared_ptr<Ghost> ghost;

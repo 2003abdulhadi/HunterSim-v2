@@ -16,6 +16,7 @@ public:
     void addGhost(std::shared_ptr<Ghost>);
     void connectRoom(std::shared_ptr<Room>);
     std::set<std::weak_ptr<Room>> &getRooms();
+    std::string& getName();
 
 private:
     std::string name;
