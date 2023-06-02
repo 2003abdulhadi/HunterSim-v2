@@ -8,7 +8,7 @@ class Banshee : public Ghost
 public:
     Banshee();
     virtual ~Banshee();
-    virtual std::shared_ptr<Evidence>& createEvidence();
+    virtual std::shared_ptr<Evidence> createEvidence();
     virtual std::ostream &output(std::ostream &);
 };
 

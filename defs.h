@@ -22,7 +22,14 @@ typedef enum
     EMF,
     TEMPERATURE,
     FINGERPRINTS,
-    SOUND
+    SOUND,
+    NULL_EVIDENCE
 } EvidenceType;
+
+class Building;
+class Room;
+class Evidence;
+class Ghost;
+class Hunter;
 
 #endif

@@ -2,6 +2,8 @@
 
 Evidence::Evidence(EvidenceType t, float v) : type(t), value(v) {}
 
+Evidence::~Evidence() {}
+
 bool Evidence::isGhostly()
 {
     switch (type)
@@ -14,5 +16,8 @@ bool Evidence::isGhostly()
         return value == 1.0;
     case 3:
         return value >= 65.0 && value <= 75.0;
+    default:
+        std::cout << "THIS SHOULDNT HAPPEN" << std::endl;
+        return false;
     }
 }

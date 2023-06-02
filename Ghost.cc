@@ -2,6 +2,8 @@
 
 Ghost::Ghost() {}
 
+Ghost::~Ghost() {}
+
 void Ghost::setRoom(std::shared_ptr<Room> r)
 {
     room = r;

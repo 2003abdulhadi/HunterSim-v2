@@ -3,6 +3,7 @@
 
 #include "defs.h"
 #include "Room.h"
+#include "Evidence.h"
 
 class Hunter
 {
@@ -11,7 +12,7 @@ public:
     ~Hunter();
     void addEvidence(std::shared_ptr<Evidence>);
     void setRoom(std::shared_ptr<Room>);
-    std::shared_ptr<Evidence>& createEvidence();
+    std::shared_ptr<Evidence> createEvidence();
 private:
     std::string name;
     EvidenceType type;

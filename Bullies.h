@@ -8,7 +8,7 @@ class Bullies : public Ghost
 public:
     Bullies();
     virtual ~Bullies();
-    virtual std::shared_ptr<Evidence>& createEvidence();
+    virtual std::shared_ptr<Evidence> createEvidence();
     virtual std::ostream &output(std::ostream &);
 };
 

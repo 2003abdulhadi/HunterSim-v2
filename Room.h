@@ -15,14 +15,14 @@ public:
     void addHunter(std::shared_ptr<Hunter>);
     void addGhost(std::shared_ptr<Ghost>);
     void connectRoom(std::shared_ptr<Room>);
-    std::set<std::weak_ptr<Room>> &getRooms();
+    std::vector<std::weak_ptr<Room>> &getRooms();
     std::string& getName();
 
 private:
     std::string name;
     std::unordered_set<std::shared_ptr<Evidence>> evidence;
     std::unordered_set<std::shared_ptr<Hunter>> hunters;
-    std::set<std::weak_ptr<Room>> rooms;
+    std::vector<std::weak_ptr<Room>> rooms;
     std::shared_ptr<Ghost> ghost;
 };
 

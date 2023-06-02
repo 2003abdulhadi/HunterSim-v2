@@ -2,6 +2,8 @@
 
 Room::Room(std::string n) : name(n) {}
 
+Room::~Room() {}
+
 void Room::addEvidence(std::shared_ptr<Evidence> e)
 {
     evidence.insert(e);
@@ -19,10 +21,15 @@ void Room::addGhost(std::shared_ptr<Ghost> g)
 
 void Room::connectRoom(std::shared_ptr<Room> r)
 {
-    rooms.insert(std::weak_ptr(r));
+    rooms.push_back(std::weak_ptr<Room>(r));
 }
 
-std::set<std::weak_ptr<Room>> &Room::getRooms()
+std::vector<std::weak_ptr<Room>> &Room::getRooms()
 {
     return rooms;
+}
+
+std::string& Room::getName()
+{
+    return name;
 }

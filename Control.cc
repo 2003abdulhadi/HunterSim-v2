@@ -2,6 +2,7 @@
 
 Control::Control()
 {
+    ghost = std::make_shared<Ghost>();
     std::shared_ptr<Hunter> harry = std::make_shared<Hunter>("Harry", EMF);
     std::shared_ptr<Hunter> barry = std::make_shared<Hunter>("Barry", TEMPERATURE);
     std::shared_ptr<Hunter> bob = std::make_shared<Hunter>("Bob", FINGERPRINTS);
@@ -25,3 +26,7 @@ Control::Control()
     auto k = b->getRoom("Kitchen").get();
     k->addGhost(ghost);
 }
+
+Control::~Control() {}
+
+void Control::launch() {}

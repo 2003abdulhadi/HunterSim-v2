@@ -8,7 +8,7 @@ class Poltergeist : public Ghost
 public:
     Poltergeist();
     virtual ~Poltergeist();
-    virtual std::shared_ptr<Evidence>& createEvidence();
+    virtual std::shared_ptr<Evidence> createEvidence();
     virtual std::ostream &output(std::ostream &);
 };
 

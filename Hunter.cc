@@ -14,7 +14,9 @@ void Hunter::setRoom(std::shared_ptr<Room> r)
     room = r;
 }
 
-std::shared_ptr<Evidence>& Hunter::createEvidence()
+std::shared_ptr<Evidence> Hunter::createEvidence()
 {
-    
+    std::shared_ptr<Evidence> temp = std::make_shared<Evidence>(NULL_EVIDENCE, 0);
+    room->addEvidence(temp);
+    return temp;
 }
