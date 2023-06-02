@@ -5,6 +5,10 @@
 #include "Building.h"
 #include "Hunter.h"
 #include "Ghost.h"
+#include "Banshee.h"
+#include "Poltergeist.h"
+#include "Bullies.h"
+#include "Phantom.h"
 
 class Control
 {
@@ -13,7 +17,6 @@ public:
     ~Control();
     void launch();
 private:
-    
     std::unique_ptr<Building> building;
     std::unordered_set<std::shared_ptr<Hunter>> hunters;
     std::shared_ptr<Ghost> ghost;
