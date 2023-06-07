@@ -7,7 +7,7 @@ Building::~Building() {}
 void Building::addHunter(std::shared_ptr<Hunter> h)
 {
     if (hunters.insert(h).second)
-        std::cout << "Hunter: " << h << "added to building" << std::endl;
+        std::cout << "Hunter: " << h->getName() << " added to building" << std::endl;
     else
         std::cout << "Building already contains Hunter: " << h << std::endl;
 }

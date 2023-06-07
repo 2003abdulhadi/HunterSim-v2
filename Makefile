@@ -3,7 +3,7 @@ SOURCE	= Banshee.cc Building.cc Bullies.cc Control.cc Evidence.cc Ghost.cc Hunte
 HEADER	= Banshee.h Building.h Bullies.h Control.h defs.h Evidence.h Ghost.h Hunter.h Phantom.h Poltergeist.h Room.h
 OUT	= HunterSim-v2
 CC	 = g++
-FLAGS	 = -g3 -c -Wall -Wl -s --relax --gc-section
+FLAGS	 = -g3 -c -Wall
 LFLAGS	 = -lpthread
 
 all: $(OBJS)

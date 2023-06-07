@@ -20,3 +20,8 @@ std::shared_ptr<Evidence> Hunter::createEvidence()
     room->addEvidence(temp);
     return temp;
 }
+
+std::string &Hunter::getName()
+{
+    return name;
+}

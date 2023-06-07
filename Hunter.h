@@ -13,6 +13,7 @@ public:
     void addEvidence(std::shared_ptr<Evidence>);
     void setRoom(std::shared_ptr<Room>);
     std::shared_ptr<Evidence> createEvidence();
+    std::string& getName();
 private:
     std::string name;
     EvidenceType type;

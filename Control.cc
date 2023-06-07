@@ -2,29 +2,29 @@
 
 Control::Control()
 {
-    // std::dynamic_pointer_cast<Banshee>(ghost);
-    // std::shared_ptr<Hunter> harry = std::make_shared<Hunter>("Harry", EMF);
-    // std::shared_ptr<Hunter> barry = std::make_shared<Hunter>("Barry", TEMPERATURE);
-    // std::shared_ptr<Hunter> bob = std::make_shared<Hunter>("Bob", FINGERPRINTS);
-    // std::shared_ptr<Hunter> ross = std::make_shared<Hunter>("Ross", SOUND);
+    building = std::make_unique<Building>();
+    ghost = std::make_shared<Banshee>();
+    std::shared_ptr<Hunter> harry = std::make_shared<Hunter>("Harry", EMF);
+    std::shared_ptr<Hunter> barry = std::make_shared<Hunter>("Barry", TEMPERATURE);
+    std::shared_ptr<Hunter> bob = std::make_shared<Hunter>("Bob", FINGERPRINTS);
+    std::shared_ptr<Hunter> ross = std::make_shared<Hunter>("Ross", SOUND);
 
-    // auto b = building.get();
-    // b->addGhost(ghost);
+    building->addGhost(ghost);
 
-    // b->addHunter(harry);
-    // b->addHunter(barry);
-    // b->addHunter(bob);
-    // b->addHunter(ross);
+    building->addHunter(harry);
+    building->addHunter(barry);
+    building->addHunter(bob);
+    building->addHunter(ross);
 
-    // b->initRooms();
-    // auto v = b->getRoom("Van").get();
-    // v->addHunter(harry);
-    // v->addHunter(barry);
-    // v->addHunter(bob);
-    // v->addHunter(ross);
+    building->initRooms();
+    auto van = building->getRoom("Van");
+    van->addHunter(harry);
+    van->addHunter(barry);
+    van->addHunter(bob);
+    van->addHunter(ross);
 
-    // auto k = b->getRoom("Kitchen").get();
-    // k->addGhost(ghost);
+    auto kitchen = building->getRoom("Kitchen");
+    kitchen->addGhost(ghost);
 }
 
 Control::~Control() {}
