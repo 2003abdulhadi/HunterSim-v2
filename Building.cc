@@ -51,6 +51,19 @@ const std::shared_ptr<Room>& Building::getRoom(std::string n)
     return nullptr;
 }
 
+void Building::printRooms()
+{
+    for(const auto& r : rooms)
+    {
+        std::cout << r.first->getName() << " - connects to:" << std::endl;
+        for(const auto& a : r.first->getRooms())
+        {
+            std::cout << a.lock()->getName() << std::endl;
+        }
+        std::cout << std:: endl;
+    }
+}
+
 void Building::initRooms()
 {
     std::shared_ptr<Room> van = std::make_shared<Room>("Van");

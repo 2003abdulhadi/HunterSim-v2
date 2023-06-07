@@ -29,4 +29,21 @@ Control::Control()
 
 Control::~Control() {}
 
-void Control::launch() {}
+void Control::launch()
+{
+    int i = -1;
+    while (i)
+    {
+        view.display(i);
+        switch (i)
+        {
+        case 0:
+            return;
+        case 1:
+            building->printRooms();
+        default:
+            break;
+        }
+    }
+    
+}

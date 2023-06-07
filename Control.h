@@ -9,6 +9,7 @@
 #include "Poltergeist.h"
 #include "Bullies.h"
 #include "Phantom.h"
+#include "View.h"
 
 class Control
 {
@@ -17,6 +18,7 @@ public:
     ~Control();
     void launch();
 private:
+    View view;
     std::unique_ptr<Building> building;
     std::unordered_set<std::shared_ptr<Hunter>> hunters;
     std::shared_ptr<Ghost> ghost;
