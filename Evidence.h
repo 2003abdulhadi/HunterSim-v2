@@ -13,6 +13,7 @@ public:
     Evidence(EvidenceType, float);
     ~Evidence();
     bool isGhostly();
+    EvidenceType getType();
 
 private:
     EvidenceType type;

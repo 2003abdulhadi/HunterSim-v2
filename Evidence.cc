@@ -8,16 +8,21 @@ bool Evidence::isGhostly()
 {
     switch (type)
     {
-    case 0:
+    case EMF:
         return value >= 4.7 && value <= 5.0;
-    case 1:
+    case TEMPERATURE:
         return value >= -10.0 && value <= 1.0;
-    case 2:
+    case FINGERPRINTS:
         return value == 1.0;
-    case 3:
+    case SOUND:
         return value >= 65.0 && value <= 75.0;
     default:
         std::cout << "THIS SHOULDNT HAPPEN" << std::endl;
         return false;
     }
+}
+
+EvidenceType Evidence::getType()
+{
+    return type;
 }

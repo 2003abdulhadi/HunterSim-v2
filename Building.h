@@ -15,7 +15,8 @@ public:
     void addHunter(std::shared_ptr<Hunter>);
     void addGhost(std::shared_ptr<Ghost>);
     void initRooms();
-    const std::shared_ptr<Room>& getRoom(std::string);
+    const std::shared_ptr<Room> getRoom(std::string);
+    const std::shared_ptr<Room>& getRandRoom();
     void printRooms();
 private:
     void addRoom(std::shared_ptr<Room>);

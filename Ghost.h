@@ -14,6 +14,8 @@ public:
     virtual ~Ghost() = 0;
     virtual std::shared_ptr<Evidence> createEvidence() = 0;
     virtual std::ostream &output(std::ostream &) = 0;
+    void update();
+    std::thread spawn();
     void setRoom(std::shared_ptr<Room>);
     int &getBoredom();
 

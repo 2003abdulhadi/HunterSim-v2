@@ -42,13 +42,30 @@ bool Building::connectRoom(std::shared_ptr<Room> r1, std::shared_ptr<Room> r2)
     return true;
 }
 
-const std::shared_ptr<Room>& Building::getRoom(std::string n)
+const std::shared_ptr<Room> Building::getRoom(std::string n)
 {
     for(auto& node : rooms)
         if(node.first->getName() == n)
             return node.first;
 
     return nullptr;
+}
+
+const std::shared_ptr<Room> &Building::getRandRoom()
+{
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, rooms.size());
+    int i, j;
+    i = 0;
+    j = dist(rng);
+    for(const auto& r : rooms)
+    {
+        i++;
+        if(i == j)
+            return r.first;
+    }
+    return rooms.begin()->first;
 }
 
 void Building::printRooms()

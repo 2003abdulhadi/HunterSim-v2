@@ -12,9 +12,9 @@ void View::display(int &c)
     cout << endl
          << endl;
     cout << "What would you like to do:" << endl;
-    cout << "  (1) Print schedule" << endl;
-    cout << "  (2) Create appointment" << endl;
-    cout << "  (3) Print animals" << endl;
+    cout << "  (1) Print Rooms" << endl;
+    cout << "  (2) Print Characters" << endl;
+    cout << "  (3) Begin Simulation" << endl;
 
     cout << "  (0) Exit" << endl
          << endl;

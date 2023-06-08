@@ -7,13 +7,20 @@
 
 class Hunter
 {
+    friend std::ostream &operator<<(std::ostream &, Hunter &);
+
 public:
     Hunter(std::string, EvidenceType);
     ~Hunter();
     void addEvidence(std::shared_ptr<Evidence>);
     void setRoom(std::shared_ptr<Room>);
     std::shared_ptr<Evidence> createEvidence();
-    std::string& getName();
+    void sharedEvidence(std::shared_ptr<Hunter> h);
+    void update();
+    std::thread spawn();
+    std::string &getName();
+    EvidenceType getType();
+
 private:
     std::string name;
     EvidenceType type;
