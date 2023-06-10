@@ -1,6 +1,6 @@
 #include "Room.h"
 
-Room::Room(std::string n) : name(n) {}
+Room::Room(std::string n) : name(n), ghost(nullptr) {}
 
 Room::~Room() {}
 
@@ -16,12 +16,16 @@ void Room::addHunter(std::shared_ptr<Hunter> h)
 
 void Room::removeHunter(std::shared_ptr<Hunter> h)
 {
-    hunters.erase(h);
+    for(const auto& hunter : hunters)
+        if(hunter.get() == h.get())
+            hunters.erase(hunter);
 }
 
 void Room::addGhost(std::shared_ptr<Ghost> g)
 {
-    ghost = g;
+    ghost = std::shared_ptr<Ghost>(g);
+    std::cout << "Ghost added to: " << *this;
+    std::cout << ", " << *ghost << std::endl;
 }
 
 void Room::connectRoom(std::shared_ptr<Room> r)
@@ -59,7 +63,7 @@ std::weak_ptr<Room> Room::getRandRoom()
 {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, rooms.size());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, rooms.size()-1);
 
     return rooms.at(dist(rng));
 }
@@ -68,7 +72,7 @@ std::weak_ptr<Hunter> Room::getRandHunter()
 {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, hunters.size());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, hunters.size()-1);
     int i, r;
     r = dist(rng);
     for(const auto& h : hunters)
@@ -81,7 +85,7 @@ std::weak_ptr<Hunter> Room::getRandHunter()
 
 bool Room::hasGhost()
 {
-    return (ghost.get() != nullptr);
+    return ghost != nullptr;
 }
 
 int Room::hasHunter()
@@ -102,4 +106,9 @@ bool Room::lockRoom()
 void Room::unlockRoom()
 {
     return lock.unlock();
+}
+
+std::ostream &operator<<(std::ostream &o, Room &r)
+{
+    return o << r.name << ", has ghost?: " << r.hasGhost();
 }

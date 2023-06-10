@@ -3,30 +3,28 @@
 Control::Control()
 {
     building = std::make_unique<Building>();
+    building->initRooms();
+
     ghost = makeRandGhost();
-    std::shared_ptr<Hunter> harry = std::make_shared<Hunter>("Harry", EMF);
-    std::shared_ptr<Hunter> barry = std::make_shared<Hunter>("Barry", TEMPERATURE);
-    std::shared_ptr<Hunter> bob = std::make_shared<Hunter>("Bob", FINGERPRINTS);
-    std::shared_ptr<Hunter> ross = std::make_shared<Hunter>("Ross", SOUND);
+    hunters.insert(std::make_shared<Hunter>("Harry", EMF));
+    hunters.insert(std::make_shared<Hunter>("Barry", TEMPERATURE));
+    hunters.insert(std::make_shared<Hunter>("Bob", FINGERPRINTS));
+    hunters.insert(std::make_shared<Hunter>("Ross", SOUND));
 
     building->addGhost(ghost);
-
-    building->addHunter(harry);
-    building->addHunter(barry);
-    building->addHunter(bob);
-    building->addHunter(ross);
-
-    building->initRooms();
-    auto van = building->getRoom("Van");
-    van->addHunter(harry);
-    van->addHunter(barry);
-    van->addHunter(bob);
-    van->addHunter(ross);
-
     auto ghostStart = building->getRandRoom();
     while(ghostStart->getName() == "Van")
         ghostStart = building->getRandRoom();
     ghost->setRoom(ghostStart);
+    ghostStart->addGhost(ghost);
+
+    auto van = building->getRoom("Van");
+    for(const auto& h : hunters)
+    {
+        building->addHunter(h);
+        van->addHunter(h);
+        h->setRoom(van);
+    }
 }
 
 Control::~Control() {}
@@ -45,12 +43,13 @@ void Control::launch()
             building->printRooms();
             break;
         case 2:
-            std::cout << *ghost << std:: endl;
-            for(auto &h : hunters)
-                std::cout << *h << std::endl;
+            building->printCharacters();
             break;
         case 3:
             run();
+            break;
+        case 4:
+            test();
             break;
         default:
             break;
@@ -89,6 +88,38 @@ void Control::run()
     for(auto& t : hunterThreads)
         if(t.joinable())
             t.join();
+            
     if(ghostThread.joinable())
         ghostThread.join();
+}
+
+void Control::test()
+{
+    for(const auto& h : hunters)
+    {
+        std::cout << h->getName() << std::endl;
+        std::cout << h->getType() << std::endl;
+        h->setRoom(building->getRandRoom());
+        h->setRoom(building->getRandRoom());
+        h->setRoom(building->getRandRoom());
+        h->setRoom(building->getRandRoom());
+        h->setRoom(building->getRandRoom());
+        h->setRoom(building->getRoom("Van"));
+    }
+
+    // std::cout << ghost->getBoredom() << std::endl;
+    // for(int i = 0; i < 10; i++)
+    // {   
+    //     auto& r = building->getRandRoom();
+    //     ghost->setRoom(r);
+    // }
+    // while(true)
+    // {   
+    //     auto& r = building->getRandRoom();
+    //     ghost->setRoom(r);
+    //     if(r->getName() == "Van")
+    //         break;
+    // }
+    // building->printCharacters();
+    // building->printRooms();
 }

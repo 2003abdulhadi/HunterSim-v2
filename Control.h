@@ -20,6 +20,7 @@ public:
 private:
     std::shared_ptr<Ghost> makeRandGhost();
     void run();
+    void test();
     View view;
     std::unique_ptr<Building> building;
     std::unordered_set<std::shared_ptr<Hunter>> hunters;

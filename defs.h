@@ -26,8 +26,7 @@ typedef enum
     EMF,
     TEMPERATURE,
     FINGERPRINTS,
-    SOUND,
-    NULL_EVIDENCE
+    SOUND
 } EvidenceType;
 
 class Building;

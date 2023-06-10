@@ -1,6 +1,6 @@
 #include "Hunter.h"
 
-Hunter::Hunter(std::string n, EvidenceType t) : name(n), type(t), boredom(100) {}
+Hunter::Hunter(std::string n, EvidenceType t) : name(n), type(t), boredom(100), uniqueGhostly(0) {}
 
 Hunter::~Hunter() {}
 
@@ -13,6 +13,8 @@ void Hunter::addEvidence(std::shared_ptr<Evidence> e)
 
 void Hunter::setRoom(std::shared_ptr<Room> r)
 {
+    if(room)
+        room->removeHunter(std::shared_ptr<Hunter>(this));
     room = r;
 }
 
@@ -64,9 +66,11 @@ void Hunter::update()
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, 2);
-
+    int i = 0;
+    std::cout << std::this_thread::get_id << ", bordeom: " << boredom << std::endl;
     while (boredom > 0)
     {
+        std::cout << std::this_thread::get_id << " itr: " << i++ << std::endl;
         if (uniqueGhostly >= 3)
             return;
         if (room->hasGhost())

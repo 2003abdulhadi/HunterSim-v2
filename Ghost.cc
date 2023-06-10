@@ -10,14 +10,18 @@ void Ghost::update()
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist1(0, 1);
     std::uniform_int_distribution<std::mt19937::result_type> dist2(0, 2);
-
+    int i = 0;
+    std::cout << std::this_thread::get_id << ", bordeom: " << boredom << std::endl;
     while (boredom > 0)
     {
+        std::cout << std::this_thread::get_id << " itr: " << i++ << std::endl;
         if (room->hasHunter())
         {
             if (dist1(rng) == 0)
             {
-                while (!room->lockRoom()) {}
+                while (!room->lockRoom())
+                {
+                }
                 createEvidence();
                 room->unlockRoom();
             }
@@ -32,7 +36,9 @@ void Ghost::update()
             case 0:
                 curr = room;
                 next = room->getRandRoom().lock();
-                while(!(curr->lockRoom() && next->lockRoom())) {}
+                while (!(curr->lockRoom() && next->lockRoom()))
+                {
+                }
                 next->addGhost(std::shared_ptr<Ghost>(this));
                 curr->addGhost(nullptr);
                 setRoom(next);
@@ -53,7 +59,7 @@ void Ghost::update()
             }
         }
 
-        if(!room->hasHunter())
+        if (!room->hasHunter())
             boredom--;
 
         using namespace std::chrono_literals;
@@ -64,7 +70,8 @@ void Ghost::update()
 
 std::thread Ghost::spawn()
 {
-    return std::thread([this] {update();});
+    return std::thread([this]
+                       { update(); });
 }
 
 void Ghost::setRoom(std::shared_ptr<Room> r)

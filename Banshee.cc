@@ -24,9 +24,6 @@ std::shared_ptr<Evidence> Banshee::createEvidence()
     case 2:
         type = SOUND;
         break;
-
-    default:
-        std::cout << "THIS SHOULDN HAPPEN (SRC:Banshee::createEvidence())" << std::endl;
     }
 
     float lower, upper;
@@ -44,9 +41,6 @@ std::shared_ptr<Evidence> Banshee::createEvidence()
         lower = 65;
         upper = 75;
         break;
-
-    default:
-        std::cout << "THIS SHOULDN HAPPEN (SRC:Banshee::createEvidence())" << std::endl;
     }
 
     std::uniform_real_distribution<float> valDist(lower, upper);
@@ -58,5 +52,5 @@ std::shared_ptr<Evidence> Banshee::createEvidence()
 
 std::ostream &Banshee::output(std::ostream &o)
 {
-    return o << "Banshee" << std::endl;
+    return o << "Banshee";
 }

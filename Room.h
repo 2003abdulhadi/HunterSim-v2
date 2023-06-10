@@ -8,6 +8,7 @@
 
 class Room
 {
+    friend std::ostream &operator<<(std::ostream &, Room &);
 public:
     Room(std::string);
     ~Room();

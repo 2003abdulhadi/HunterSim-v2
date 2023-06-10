@@ -24,8 +24,6 @@ std::shared_ptr<Evidence> Bullies::createEvidence()
     case 2:
         type = SOUND;
         break;
-    default:
-        std::cout << "THIS SHOULDN HAPPEN (SRC:Bullies::createEvidence())" << std::endl;
     }
 
     float lower, upper;
@@ -43,8 +41,6 @@ std::shared_ptr<Evidence> Bullies::createEvidence()
         lower = 65;
         upper = 75;
         break;
-    default:
-        std::cout << "THIS SHOULDN HAPPEN (SRC:Bullies::createEvidence())" << std::endl;
     }
 
     std::uniform_real_distribution<float> valDist(lower, upper);
@@ -56,5 +52,5 @@ std::shared_ptr<Evidence> Bullies::createEvidence()
 
 std::ostream &Bullies::output(std::ostream &o)
 {
-    return o << "Bullies" << std::endl;
+    return o << "Bullies";
 }

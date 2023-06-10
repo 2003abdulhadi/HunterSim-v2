@@ -24,9 +24,6 @@ std::shared_ptr<Evidence> Phantom::createEvidence()
     case 2:
         type = SOUND;
         break;
-
-    default:
-        std::cout << "THIS SHOULDN HAPPEN (SRC:Phantom::createEvidence())" << std::endl;
     }
 
     float lower, upper;
@@ -44,8 +41,6 @@ std::shared_ptr<Evidence> Phantom::createEvidence()
         lower = 65;
         upper = 75;
         break;
-    default:
-        std::cout << "THIS SHOULDN HAPPEN (SRC:Phantom::createEvidence())" << std::endl;
     }
 
     std::uniform_real_distribution<float> valDist(lower, upper);
@@ -57,5 +52,5 @@ std::shared_ptr<Evidence> Phantom::createEvidence()
 
 std::ostream &Phantom::output(std::ostream &o)
 {
-    return o << "Phantom" << std::endl;
+    return o << "Phantom";
 }

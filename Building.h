@@ -18,6 +18,7 @@ public:
     const std::shared_ptr<Room> getRoom(std::string);
     const std::shared_ptr<Room>& getRandRoom();
     void printRooms();
+    void printCharacters();
 private:
     void addRoom(std::shared_ptr<Room>);
     bool connectRoom(std::shared_ptr<Room>, std::shared_ptr<Room>);

@@ -17,7 +17,6 @@ bool Evidence::isGhostly()
     case SOUND:
         return value >= 65.0 && value <= 75.0;
     default:
-        std::cout << "THIS SHOULDNT HAPPEN" << std::endl;
         return false;
     }
 }

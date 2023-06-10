@@ -6,10 +6,7 @@ Building::~Building() {}
 
 void Building::addHunter(std::shared_ptr<Hunter> h)
 {
-    if (hunters.insert(h).second)
-        std::cout << "Hunter: " << h->getName() << " added to building" << std::endl;
-    else
-        std::cout << "Building already contains Hunter: " << h << std::endl;
+    hunters.insert(h);
 }
 
 void Building::addGhost(std::shared_ptr<Ghost> g)
@@ -48,6 +45,7 @@ const std::shared_ptr<Room> Building::getRoom(std::string n)
         if(node.first->getName() == n)
             return node.first;
 
+    std::cout << "Couldnt find room " << n << std::endl;
     return nullptr;
 }
 
@@ -55,7 +53,7 @@ const std::shared_ptr<Room> &Building::getRandRoom()
 {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, rooms.size());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, rooms.size()-1);
     int i, j;
     i = 0;
     j = dist(rng);
@@ -77,8 +75,15 @@ void Building::printRooms()
         {
             std::cout << a.lock()->getName() << std::endl;
         }
-        std::cout << std:: endl;
+        std::cout << std::endl;
     }
+}
+
+void Building::printCharacters()
+{
+    std::cout<< *ghost << std::endl;
+    for(const auto& h : hunters)
+        std::cout << *h << std::endl;
 }
 
 void Building::initRooms()

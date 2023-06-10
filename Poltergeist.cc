@@ -24,9 +24,6 @@ std::shared_ptr<Evidence> Poltergeist::createEvidence()
     case 2:
         type = FINGERPRINTS;
         break;
-
-    default:
-        std::cout << "THIS SHOULDN HAPPEN (SRC:Poltergeist::createEvidence())" << std::endl;
     }
 
     float lower, upper;
@@ -44,8 +41,6 @@ std::shared_ptr<Evidence> Poltergeist::createEvidence()
         lower = 1;
         upper = 1;
         break;
-    default:
-        std::cout << "THIS SHOULDN HAPPEN (SRC:Poltergeist::createEvidence())" << std::endl;
     }
 
     std::uniform_real_distribution<float> valDist(lower, upper);
@@ -57,5 +52,5 @@ std::shared_ptr<Evidence> Poltergeist::createEvidence()
 
 std::ostream &Poltergeist::output(std::ostream &o)
 {
-    return o << "Poltergeist" << std::endl;
+    return o << "Poltergeist";
 }
