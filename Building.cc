@@ -2,7 +2,12 @@
 
 Building::Building() {}
 
-Building::~Building() {}
+Building::~Building()
+{
+    ghost = nullptr;
+    hunters.clear();
+    rooms.clear();
+}
 
 void Building::addHunter(std::shared_ptr<Hunter> h)
 {
@@ -70,6 +75,23 @@ void Building::printCharacters()
         std::cout << *(h.second) << std::endl;
 }
 
+void Building::clear()
+{
+    for(const auto& r : rooms)
+    {
+        r.second->clear();
+    }
+    for(const auto& h : hunters)
+    {
+        h.second->clear();
+    }
+    ghost->clear();
+
+    rooms.clear();
+    hunters.clear();
+    ghost = nullptr;
+}
+
 void Building::initRooms()
 {
     addRoom("Van");
@@ -86,6 +108,7 @@ void Building::initRooms()
     addRoom("Garage");
     addRoom("Utility Room");
     addRoom("Front Yard");
+    addRoom("Backyard");
 
     connectRoom("Hallway", "Van");
     connectRoom("Hallway", "Master Bedroom");
@@ -100,4 +123,6 @@ void Building::initRooms()
     connectRoom("Kitchen", "Garage");
     connectRoom("Garage", "Utility Room");
     connectRoom("Front Yard", "Van");
+    connectRoom("Front Yard", "Garage");
+    connectRoom("Front Yard", "Backyard");
 }

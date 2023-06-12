@@ -2,28 +2,31 @@
 
 Ghost::Ghost() : boredom(100) {}
 
-Ghost::~Ghost() {}
+Ghost::~Ghost()
+{
+    room = nullptr;
+}
 
 void Ghost::update()
 {
+    using namespace std::chrono_literals;
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist1(0, 1);
     std::uniform_int_distribution<std::mt19937::result_type> dist2(0, 2);
     int i = 0;
-    std::cout << std::this_thread::get_id << ", bordeom: " << boredom << std::endl;
     while (boredom > 0)
     {
-        std::cout << std::this_thread::get_id << " itr: " << i++ << std::endl;
+        std::cout << std::this_thread::get_id() << " itr: " << i++ << ", GHOST bordeom: " << boredom << std::endl;
         if (room->hasHunter())
         {
             if (dist1(rng) == 0)
             {
-                while (!room->lockRoom())
+                if (room->lockRoom())
                 {
+                    createEvidence();
+                    room->unlockRoom();
                 }
-                createEvidence();
-                room->unlockRoom();
             }
         }
         else
@@ -36,21 +39,24 @@ void Ghost::update()
             case 0:
                 curr = room;
                 next = room->getRandRoom().lock();
-                while (!(curr->lockRoom() && next->lockRoom()))
+                if (curr->lockRoom())
                 {
+                    if (next->lockRoom())
+                    {
+                        next->addGhost(curr->removeGhost());
+                        setRoom(next);
+                        next->unlockRoom();
+                    }
+                    curr->unlockRoom();
                 }
-                next->addGhost(curr->removeGhost());
-                setRoom(next);
-                curr->unlockRoom();
-                next->unlockRoom();
                 break;
 
             case 1:
-                while (!room->lockRoom())
+                if (room->lockRoom())
                 {
+                    createEvidence();
+                    room->unlockRoom();
                 }
-                createEvidence();
-                room->unlockRoom();
                 break;
 
             case 2:
@@ -61,7 +67,6 @@ void Ghost::update()
         if (!room->hasHunter())
             boredom--;
 
-        using namespace std::chrono_literals;
         std::this_thread::sleep_for(1s);
     }
     std::cout << "DONE" << std::endl;
@@ -99,6 +104,11 @@ std::shared_ptr<Ghost> Ghost::makeRandGhost()
     case 3:
         return std::make_shared<Poltergeist>();
     }
+}
+
+void Ghost::clear()
+{
+    room = nullptr;
 }
 
 std::ostream &operator<<(std::ostream &o, Ghost &g)

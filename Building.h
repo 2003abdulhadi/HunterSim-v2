@@ -19,6 +19,7 @@ public:
     const std::shared_ptr<Room>& getRandRoom();
     void printRooms();
     void printCharacters();
+    void clear();
 private:
     void addRoom(std::string);
     void connectRoom(std::string, std::string);

@@ -1,10 +1,10 @@
 #include "Room.h"
 
-
 Room::Room(std::string n) : name(n), ghost(nullptr) {}
 
 Room::~Room()
 {
+    ghost = nullptr;
     rooms.clear();
 }
 
@@ -18,7 +18,7 @@ void Room::addHunter(std::shared_ptr<Hunter> h)
     hunters.insert(std::make_pair(h->getName(), h));
 }
 
-std::shared_ptr<Hunter>& Room::removeHunter(std::string h)
+std::shared_ptr<Hunter> Room::removeHunter(std::string h)
 {
     auto hunter = hunters.at(h);
     hunters.erase(h);
@@ -44,7 +44,7 @@ void Room::connectRoom(std::shared_ptr<Room> r)
 
 bool Room::shareEvidence(std::string h)
 {
-    bool ghostly;
+    bool ghostly = false;
     std::shared_ptr<Hunter> hunter = hunters[h];
     for (auto &e : evidence)
     {
@@ -78,19 +78,18 @@ std::weak_ptr<Room> Room::getRandRoom()
     return rooms.at(dist(rng));
 }
 
-std::weak_ptr<Hunter> Room::getRandHunter()
+std::shared_ptr<Hunter> Room::getRandHunter()
 {
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, hunters.size() - 1);
     int i, r;
+    i = 0;
     r = dist(rng);
     for (const auto &h : hunters)
-    {
-        i++;
-        if (i == r)
+        if (i++ == r)
             return h.second;
-    }
+    return hunters.begin()->second;
 }
 
 bool Room::hasGhost()
@@ -110,12 +109,21 @@ bool Room::hasEvidence()
 
 bool Room::lockRoom()
 {
+    std::cout << "LOCKING " << name << std::endl;
     return lock.try_lock();
 }
 
 void Room::unlockRoom()
 {
+    std::cout << "UNLOCKING " << name << std::endl;
     return lock.unlock();
+}
+
+void Room::clear()
+{
+    rooms.clear();
+    hunters.clear();
+    ghost = nullptr;
 }
 
 std::ostream &operator<<(std::ostream &o, Room &r)

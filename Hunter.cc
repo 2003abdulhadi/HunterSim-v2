@@ -1,8 +1,11 @@
 #include "Hunter.h"
 
-Hunter::Hunter(std::string n, EvidenceType t) : name(n), type(t), boredom(100), uniqueGhostly(0) {}
+Hunter::Hunter(std::string n, EvidenceType t) : name(n), type(t), fear(0), boredom(100), uniqueGhostly(0) {}
 
-Hunter::~Hunter() {}
+Hunter::~Hunter()
+{
+    room = nullptr;
+}
 
 void Hunter::addEvidence(std::shared_ptr<Evidence> e)
 {
@@ -61,14 +64,14 @@ void Hunter::sharedEvidence(std::shared_ptr<Hunter> h)
 
 void Hunter::update()
 {
+    using namespace std::chrono_literals;
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, 2);
     int i = 0;
-    std::cout << std::this_thread::get_id << ", bordeom: " << boredom << std::endl;
     while (boredom > 0)
     {
-        std::cout << std::this_thread::get_id << " itr: " << i++ << std::endl;
+        std::cout << std::this_thread::get_id() << " itr: " << i++ << "," << name << " bordeom: " << boredom << std::endl;
         if (uniqueGhostly >= 3)
             return;
         if (room->hasGhost())
@@ -90,44 +93,47 @@ void Hunter::update()
         {
 
         case 0:
-            while (!room->lockRoom())
+            if (room->lockRoom())
             {
+                if (room->hasEvidence())
+                {
+                    if (room->shareEvidence(name))
+                        boredom = BOREDOM_MAX;
+                }
+                else
+                    createEvidence();
             }
-            if (room->hasEvidence())
-            {
-                if (room->shareEvidence(name))
-                    boredom = BOREDOM_MAX;
-            }
-            else
-                createEvidence();
             break;
 
         case 1:
             curr = room;
             next = room->getRandRoom().lock();
-            while (!(curr->lockRoom() && next->lockRoom()))
+            if (curr->lockRoom())
             {
+                if (next->lockRoom())
+                {
+                    next->addHunter(curr->removeHunter(name));
+                    setRoom(next);
+                    next->unlockRoom();
+                }
+                curr->unlockRoom();
             }
-            next->addHunter(curr->removeHunter(name));
-            setRoom(next);
-            curr->unlockRoom();
-            next->unlockRoom();
             break;
 
         case 2:
             // communiucating
             if (room->hasHunter() > 1)
             {
-                std::shared_ptr<Hunter> temp;
-                do
+                std::shared_ptr<Hunter> temp = room->getRandHunter();
+                while(temp->name == name)
                 {
-                    temp = room->getRandHunter().lock();
-                } while (temp.get() == this);
+                    temp = room->getRandHunter();
+                }
                 sharedEvidence(temp);
             }
             break;
         }
-        using namespace std::chrono_literals;
+        boredom--;
         std::this_thread::sleep_for(1s);
     }
     std::cout << "DONE" << std::endl;
@@ -135,7 +141,8 @@ void Hunter::update()
 
 std::thread Hunter::spawn()
 {
-    return std::thread([this] {update();});
+    return std::thread([this]
+                       { update(); });
 }
 
 std::string &Hunter::getName()
@@ -146,6 +153,11 @@ std::string &Hunter::getName()
 EvidenceType Hunter::getType()
 {
     return type;
+}
+
+void Hunter::clear()
+{
+    room = nullptr;
 }
 
 std::ostream &operator<<(std::ostream &o, Hunter &h)

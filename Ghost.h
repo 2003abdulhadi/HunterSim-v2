@@ -19,6 +19,7 @@ public:
     void setRoom(std::shared_ptr<Room>);
     int &getBoredom();
     static std::shared_ptr<Ghost> makeRandGhost();
+    void clear();
 
 protected:
     std::shared_ptr<Room> room;
