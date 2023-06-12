@@ -5,11 +5,7 @@ Control::Control()
     building = std::make_unique<Building>();
     building->initRooms();
 
-    ghost = makeRandGhost();
-    hunters.insert(std::make_shared<Hunter>("Harry", EMF));
-    hunters.insert(std::make_shared<Hunter>("Barry", TEMPERATURE));
-    hunters.insert(std::make_shared<Hunter>("Bob", FINGERPRINTS));
-    hunters.insert(std::make_shared<Hunter>("Ross", SOUND));
+    ghost = Ghost::makeRandGhost();
 
     building->addGhost(ghost);
     auto ghostStart = building->getRandRoom();
@@ -18,6 +14,10 @@ Control::Control()
     ghost->setRoom(ghostStart);
     ghostStart->addGhost(ghost);
 
+    hunters.insert(std::make_shared<Hunter>("Harry", EMF));
+    hunters.insert(std::make_shared<Hunter>("Barry", TEMPERATURE));
+    hunters.insert(std::make_shared<Hunter>("Bob", FINGERPRINTS));
+    hunters.insert(std::make_shared<Hunter>("Ross", SOUND));
     auto van = building->getRoom("Van");
     for(const auto& h : hunters)
     {
@@ -57,23 +57,6 @@ void Control::launch()
     }
 }
 
-std::shared_ptr<Ghost> Control::makeRandGhost()
-{
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> typeDist(0, 3);
-    switch (typeDist(rng))
-    {
-    case 0:
-        return std::make_shared<Banshee>();
-    case 1:
-        return std::make_shared<Bullies>();
-    case 2:
-        return std::make_shared<Phantom>();
-    case 3:
-        return std::make_shared<Poltergeist>();
-    }
-}
 
 void Control::run()
 {
@@ -99,12 +82,7 @@ void Control::test()
     {
         std::cout << h->getName() << std::endl;
         std::cout << h->getType() << std::endl;
-        h->setRoom(building->getRandRoom());
-        h->setRoom(building->getRandRoom());
-        h->setRoom(building->getRandRoom());
-        h->setRoom(building->getRandRoom());
-        h->setRoom(building->getRandRoom());
-        h->setRoom(building->getRoom("Van"));
+        return;
     }
 
     // std::cout << ghost->getBoredom() << std::endl;

@@ -6,7 +6,7 @@ Building::~Building() {}
 
 void Building::addHunter(std::shared_ptr<Hunter> h)
 {
-    hunters.insert(h);
+    hunters.insert(std::make_pair(h->getName(), h));
 }
 
 void Building::addGhost(std::shared_ptr<Ghost> g)
@@ -14,39 +14,23 @@ void Building::addGhost(std::shared_ptr<Ghost> g)
     ghost = g;
 }
 
-void Building::addRoom(std::shared_ptr<Room> r)
+void Building::addRoom(std::string r)
 {
-    rooms.insert(std::make_pair(r, r.get()->getRooms()));
+    rooms.insert(std::make_pair(r, std::make_shared<Room>(r)));
 }
 
-bool Building::connectRoom(std::shared_ptr<Room> r1, std::shared_ptr<Room> r2)
+void Building::connectRoom(std::string r1, std::string r2)
 {
-    auto x = rooms.find(r1);
-    auto y = rooms.find(r1);
-    if (x == rooms.end())
-    {
-        std::cout << "Room " << r1.get() << "is not in building" << std::endl;
-        return false;
-    }
-    if (y == rooms.end())
-    {
-        std::cout << "Room " << r2.get() << "is not in building" << std::endl;
-        return false;
-    }
+    auto x = rooms.at(r1);
+    auto y = rooms.at(r2);
 
-    r1.get()->connectRoom(r2);
-    r2.get()->connectRoom(r1);
-    return true;
+    x->connectRoom(y);
+    y->connectRoom(x);
 }
 
 const std::shared_ptr<Room> Building::getRoom(std::string n)
 {
-    for(auto& node : rooms)
-        if(node.first->getName() == n)
-            return node.first;
-
-    std::cout << "Couldnt find room " << n << std::endl;
-    return nullptr;
+    return rooms.at(n);
 }
 
 const std::shared_ptr<Room> &Building::getRandRoom()
@@ -61,17 +45,17 @@ const std::shared_ptr<Room> &Building::getRandRoom()
     {
         i++;
         if(i == j)
-            return r.first;
+            return r.second;
     }
-    return rooms.begin()->first;
+    return rooms.begin()->second;
 }
 
 void Building::printRooms()
 {
     for(const auto& r : rooms)
     {
-        std::cout << r.first->getName() << " - connects to:" << std::endl;
-        for(const auto& a : r.first->getRooms())
+        std::cout << r.first << " - connects to:" << std::endl;
+        for(const auto& a : r.second->getRooms())
         {
             std::cout << a.lock()->getName() << std::endl;
         }
@@ -83,52 +67,37 @@ void Building::printCharacters()
 {
     std::cout<< *ghost << std::endl;
     for(const auto& h : hunters)
-        std::cout << *h << std::endl;
+        std::cout << *(h.second) << std::endl;
 }
 
 void Building::initRooms()
 {
-    std::shared_ptr<Room> van = std::make_shared<Room>("Van");
-    std::shared_ptr<Room> hallway = std::make_shared<Room>("Hallway");
-    std::shared_ptr<Room> master_bedroom = std::make_shared<Room>("Master Bedroom");
-    std::shared_ptr<Room> boys_room = std::make_shared<Room>("Boy's Room");
-    std::shared_ptr<Room> bathroom = std::make_shared<Room>("Bathroom");
-    std::shared_ptr<Room> basement = std::make_shared<Room>("Basement");
-    std::shared_ptr<Room> basement_hallway = std::make_shared<Room>("Basement Hallway");
-    std::shared_ptr<Room> right_storage_room = std::make_shared<Room>("Right Storage Room");
-    std::shared_ptr<Room> left_storage_room = std::make_shared<Room>("Left Storage Room");
-    std::shared_ptr<Room> kitchen = std::make_shared<Room>("Kitchen");
-    std::shared_ptr<Room> living_room = std::make_shared<Room>("Living Room");
-    std::shared_ptr<Room> garage = std::make_shared<Room>("Garage");
-    std::shared_ptr<Room> utility_room = std::make_shared<Room>("Utility Room");
-    std::shared_ptr<Room> front_yard = std::make_shared<Room>("Front Yard");
+    addRoom("Van");
+    addRoom("Hallway");
+    addRoom("Master Bedroom");
+    addRoom("Boys Room");
+    addRoom("Bathroom");
+    addRoom("Basement");
+    addRoom("Basement Hallway");
+    addRoom("Right Storage Room");
+    addRoom("Left Storage Room");
+    addRoom("Kitchen");
+    addRoom("Living Room");
+    addRoom("Garage");
+    addRoom("Utility Room");
+    addRoom("Front Yard");
 
-    addRoom(van);
-    addRoom(hallway);
-    addRoom(master_bedroom);
-    addRoom(boys_room);
-    addRoom(bathroom);
-    addRoom(basement);
-    addRoom(basement_hallway);
-    addRoom(right_storage_room);
-    addRoom(left_storage_room);
-    addRoom(kitchen);
-    addRoom(living_room);
-    addRoom(garage);
-    addRoom(utility_room);
-    addRoom(front_yard);
-
-    connectRoom(hallway, van);
-    connectRoom(hallway, master_bedroom);
-    connectRoom(hallway, boys_room);
-    connectRoom(hallway, bathroom);
-    connectRoom(hallway, kitchen);
-    connectRoom(hallway, basement);
-    connectRoom(basement_hallway, basement);
-    connectRoom(basement_hallway, right_storage_room);
-    connectRoom(basement_hallway, left_storage_room);
-    connectRoom(kitchen, living_room);
-    connectRoom(kitchen, garage);
-    connectRoom(garage, utility_room);
-    connectRoom(front_yard, van);
+    connectRoom("Hallway", "Van");
+    connectRoom("Hallway", "Master Bedroom");
+    connectRoom("Hallway", "Boys Room");
+    connectRoom("Hallway", "Bathroom");
+    connectRoom("Hallway", "Kitchen");
+    connectRoom("Hallway", "Basement");
+    connectRoom("Basement Hallway", "Basement");
+    connectRoom("Basement Hallway", "Right Storage Room");
+    connectRoom("Basement Hallway", "Left Storage Room");
+    connectRoom("Kitchen", "Living Room");
+    connectRoom("Kitchen", "Garage");
+    connectRoom("Garage", "Utility Room");
+    connectRoom("Front Yard", "Van");
 }

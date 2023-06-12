@@ -13,8 +13,6 @@ void Hunter::addEvidence(std::shared_ptr<Evidence> e)
 
 void Hunter::setRoom(std::shared_ptr<Room> r)
 {
-    if(room)
-        room->removeHunter(std::shared_ptr<Hunter>(this));
     room = r;
 }
 
@@ -97,7 +95,7 @@ void Hunter::update()
             }
             if (room->hasEvidence())
             {
-                if (room->shareEvidence(std::shared_ptr<Hunter>(this)))
+                if (room->shareEvidence(name))
                     boredom = BOREDOM_MAX;
             }
             else
@@ -110,8 +108,7 @@ void Hunter::update()
             while (!(curr->lockRoom() && next->lockRoom()))
             {
             }
-            next->addHunter(std::shared_ptr<Hunter>(this));
-            curr->removeHunter(std::shared_ptr<Hunter>(this));
+            next->addHunter(curr->removeHunter(name));
             setRoom(next);
             curr->unlockRoom();
             next->unlockRoom();

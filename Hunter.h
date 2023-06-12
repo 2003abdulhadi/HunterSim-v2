@@ -29,6 +29,7 @@ private:
     std::shared_ptr<Room> room;
     std::unordered_set<std::shared_ptr<Evidence>> evidence;
     int uniqueGhostly;
+    std::weak_ptr<Hunter> pointer;
 };
 
 #endif

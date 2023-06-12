@@ -18,7 +18,6 @@ public:
     ~Control();
     void launch();
 private:
-    std::shared_ptr<Ghost> makeRandGhost();
     void run();
     void test();
     View view;

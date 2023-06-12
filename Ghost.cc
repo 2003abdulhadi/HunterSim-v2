@@ -39,8 +39,7 @@ void Ghost::update()
                 while (!(curr->lockRoom() && next->lockRoom()))
                 {
                 }
-                next->addGhost(std::shared_ptr<Ghost>(this));
-                curr->addGhost(nullptr);
+                next->addGhost(curr->removeGhost());
                 setRoom(next);
                 curr->unlockRoom();
                 next->unlockRoom();
@@ -82,6 +81,24 @@ void Ghost::setRoom(std::shared_ptr<Room> r)
 int &Ghost::getBoredom()
 {
     return boredom;
+}
+
+std::shared_ptr<Ghost> Ghost::makeRandGhost()
+{
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> typeDist(0, 3);
+    switch (typeDist(rng))
+    {
+    case 0:
+        return std::make_shared<Banshee>();
+    case 1:
+        return std::make_shared<Bullies>();
+    case 2:
+        return std::make_shared<Phantom>();
+    case 3:
+        return std::make_shared<Poltergeist>();
+    }
 }
 
 std::ostream &operator<<(std::ostream &o, Ghost &g)

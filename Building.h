@@ -20,10 +20,10 @@ public:
     void printRooms();
     void printCharacters();
 private:
-    void addRoom(std::shared_ptr<Room>);
-    bool connectRoom(std::shared_ptr<Room>, std::shared_ptr<Room>);
-    std::unordered_map<std::shared_ptr<Room>, std::vector<std::weak_ptr<Room>>> rooms;
-    std::unordered_set<std::shared_ptr<Hunter>> hunters;
+    void addRoom(std::string);
+    void connectRoom(std::string, std::string);
+    std::unordered_map<std::string, std::shared_ptr<Room>> rooms;
+    std::unordered_map<std::string, std::shared_ptr<Hunter>> hunters;
     std::shared_ptr<Ghost> ghost;
     std::unordered_set<std::shared_ptr<Evidence>> evidence;
 };

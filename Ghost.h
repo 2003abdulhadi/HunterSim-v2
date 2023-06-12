@@ -18,10 +18,16 @@ public:
     std::thread spawn();
     void setRoom(std::shared_ptr<Room>);
     int &getBoredom();
+    static std::shared_ptr<Ghost> makeRandGhost();
 
 protected:
     std::shared_ptr<Room> room;
     int boredom;
 };
+
+#include "Banshee.h"
+#include "Bullies.h"
+#include "Phantom.h"
+#include "Poltergeist.h"
 
 #endif
