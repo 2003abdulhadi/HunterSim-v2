@@ -57,9 +57,6 @@ void Control::launch()
         case 3:
             run();
             break;
-        case 4:
-            test();
-            break;
         default:
             break;
         }
@@ -82,10 +79,4 @@ void Control::run()
 
     if (ghostThread.joinable())
         ghostThread.join();
-}
-
-void Control::test()
-{
-    for(int i = 0;i< 36;i++)
-        std::cout << *(building->getRoom("Van")->getRandHunter()) << std::endl;
 }

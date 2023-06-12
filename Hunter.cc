@@ -125,7 +125,7 @@ void Hunter::update()
             if (room->hasHunter() > 1)
             {
                 std::shared_ptr<Hunter> temp = room->getRandHunter();
-                while(temp->name == name)
+                while (temp->name == name)
                 {
                     temp = room->getRandHunter();
                 }
