@@ -73,6 +73,7 @@ void Control::run()
     for (auto &h : hunters)
     {
         hunterThreads[i++] = h->spawn();
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
     }
     std::thread ghostThread = ghost->spawn();
 
