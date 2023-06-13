@@ -7,7 +7,7 @@ View::~View() {}
 void View::display(int &c)
 {
     using namespace std;
-    int numOptions = 3;
+    int numOptions = 4;
 
     cout << endl
          << endl;
@@ -15,6 +15,7 @@ void View::display(int &c)
     cout << "  (1) Print Rooms" << endl;
     cout << "  (2) Print Characters" << endl;
     cout << "  (3) Begin Simulation" << endl;
+    cout << "  (4) Test Objects" << endl;
 
     cout << "  (0) Exit" << endl
          << endl;

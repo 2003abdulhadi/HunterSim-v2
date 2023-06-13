@@ -46,16 +46,13 @@ std::shared_ptr<Evidence> Hunter::createEvidence()
     default:
         break;
     }
-    std::uniform_real_distribution<float> dist(lower, upper);
 
-    float result = dist(rng);
-
-    std::shared_ptr<Evidence> temp = std::make_shared<Evidence>(type, result);
-    room->addEvidence(temp);
-    return temp;
+    std::uniform_real_distribution<float> valDist(lower, upper);
+    float val = valDist(rng);
+    return std::make_shared<Evidence>(type, val);
 }
 
-void Hunter::sharedEvidence(std::shared_ptr<Hunter> h)
+void Hunter::shareEvidence(std::shared_ptr<Hunter> h)
 {
     for (const auto &e : evidence)
         if (e->isGhostly())
@@ -71,7 +68,6 @@ void Hunter::update()
     int i = 0;
     while (boredom > 0)
     {
-        std::cout << std::this_thread::get_id() << " itr: " << i++ << "," << name << " bordeom: " << boredom << std::endl;
         if (uniqueGhostly >= 3)
             return;
         if (room->hasGhost())
@@ -83,12 +79,10 @@ void Hunter::update()
             }
             else
             {
-                std::cout << "RAN AWAY" << std::endl;
                 return;
             }
         }
-        std::shared_ptr<Room> curr;
-        std::shared_ptr<Room> next;
+        std::shared_ptr<Room> curr, next;
         switch (dist(rng))
         {
 
@@ -101,23 +95,21 @@ void Hunter::update()
                         boredom = BOREDOM_MAX;
                 }
                 else
-                    createEvidence();
+                    room->addEvidence(createEvidence());
             }
             break;
 
         case 1:
             curr = room;
             next = room->getRandRoom().lock();
-            if (curr->lockRoom())
+            if (curr->lockRoom() && next->lockRoom())
             {
-                if (next->lockRoom())
-                {
-                    next->addHunter(curr->removeHunter(name));
-                    setRoom(next);
-                    next->unlockRoom();
-                }
-                curr->unlockRoom();
+                next->addHunter(curr->removeHunter(name));
+                setRoom(next);
             }
+            next->unlockRoom();
+            curr->unlockRoom();
+
             break;
 
         case 2:
@@ -129,14 +121,13 @@ void Hunter::update()
                 {
                     temp = room->getRandHunter();
                 }
-                sharedEvidence(temp);
+                shareEvidence(temp);
             }
             break;
         }
         boredom--;
-        std::this_thread::sleep_for(1s);
+        std::this_thread::sleep_for(100ms);
     }
-    std::cout << "DONE" << std::endl;
 }
 
 std::thread Hunter::spawn()
@@ -158,6 +149,16 @@ EvidenceType Hunter::getType()
 void Hunter::clear()
 {
     room = nullptr;
+}
+
+bool Hunter::hasGhostly()
+{
+    return uniqueGhostly >= 3;
+}
+
+std::unordered_set<std::shared_ptr<Evidence>> Hunter::getEvidence()
+{
+    return evidence;
 }
 
 std::ostream &operator<<(std::ostream &o, Hunter &h)

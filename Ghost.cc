@@ -17,44 +17,40 @@ void Ghost::update()
     int i = 0;
     while (boredom > 0)
     {
-        std::cout << std::this_thread::get_id() << " itr: " << i++ << ", GHOST bordeom: " << boredom << std::endl;
         if (room->hasHunter())
         {
             if (dist1(rng) == 0)
             {
                 if (room->lockRoom())
                 {
-                    createEvidence();
+                    room->addEvidence(createEvidence());
                     room->unlockRoom();
                 }
             }
         }
         else
         {
-            std::shared_ptr<Room> curr;
-            std::shared_ptr<Room> next;
+            std::shared_ptr<Room> curr, next;
 
             switch (dist2(rng))
             {
             case 0:
                 curr = room;
                 next = room->getRandRoom().lock();
-                if (curr->lockRoom())
+                if (curr->lockRoom() && next->lockRoom())
                 {
-                    if (next->lockRoom())
-                    {
-                        next->addGhost(curr->removeGhost());
-                        setRoom(next);
-                        next->unlockRoom();
-                    }
-                    curr->unlockRoom();
+                    next->addGhost(curr->removeGhost());
+                    setRoom(next);
                 }
+                next->unlockRoom();
+                curr->unlockRoom();
+
                 break;
 
             case 1:
                 if (room->lockRoom())
                 {
-                    createEvidence();
+                    room->addEvidence(createEvidence());
                     room->unlockRoom();
                 }
                 break;
@@ -64,12 +60,11 @@ void Ghost::update()
             }
         }
 
-        if (!room->hasHunter())
+        if (room->hasHunter() != 0)
             boredom--;
 
-        std::this_thread::sleep_for(1s);
+        std::this_thread::sleep_for(100ms);
     }
-    std::cout << "DONE" << std::endl;
 }
 
 std::thread Ghost::spawn()

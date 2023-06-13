@@ -57,6 +57,9 @@ void Control::launch()
         case 3:
             run();
             break;
+        case 4:
+            test();
+            break;
         default:
             break;
         }
@@ -79,4 +82,31 @@ void Control::run()
 
     if (ghostThread.joinable())
         ghostThread.join();
+
+    for(auto &h : hunters)
+        if(h->hasGhostly())
+        {
+            std::cout << "Hunters have won" << std::endl;
+            return;
+        }
+    
+    std::cout << "Ghost has won" << std::endl;
+}
+
+void Control::test()
+{
+    auto room = building->getRoom("Van");
+    for(int i = 0;i<2;i++)
+    {
+        room->addEvidence(ghost->createEvidence());
+        for(const auto& h : hunters)
+        {
+            room->addEvidence(h->createEvidence());
+        }
+    }
+
+    for(auto& h : hunters)
+    {
+        room->shareEvidence(h->getName());
+    }
 }

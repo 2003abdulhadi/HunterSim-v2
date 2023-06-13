@@ -45,17 +45,22 @@ void Room::connectRoom(std::shared_ptr<Room> r)
 bool Room::shareEvidence(std::string h)
 {
     bool ghostly = false;
-    std::shared_ptr<Hunter> hunter = hunters[h];
+    if(!hunters.count(h))
+        return false;
+    
+    std::shared_ptr<Hunter> hunter = hunters.at(h);
     for (auto &e : evidence)
     {
         if (e->getType() == hunter->getType())
         {
             hunter->addEvidence(e);
-            evidence.erase(e);
             if (!ghostly && e->isGhostly())
                 ghostly = true;
         }
     }
+    for(auto &e : hunter->getEvidence())
+        if(evidence.count(e))
+            evidence.erase(e);
     return ghostly;
 }
 
@@ -109,13 +114,11 @@ bool Room::hasEvidence()
 
 bool Room::lockRoom()
 {
-    std::cout << "LOCKING " << name << std::endl;
     return lock.try_lock();
 }
 
 void Room::unlockRoom()
 {
-    std::cout << "UNLOCKING " << name << std::endl;
     return lock.unlock();
 }
 

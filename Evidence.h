@@ -16,6 +16,7 @@ public:
     EvidenceType getType();
 
 private:
+    std::string typeToString();
     EvidenceType type;
     float value;
 };

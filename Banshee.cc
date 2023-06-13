@@ -45,9 +45,7 @@ std::shared_ptr<Evidence> Banshee::createEvidence()
 
     std::uniform_real_distribution<float> valDist(lower, upper);
     float val = valDist(rng);
-    std::shared_ptr<Evidence> temp = std::make_shared<Evidence>(type, val);
-    room->addEvidence(temp);
-    return temp;
+    return std::make_shared<Evidence>(type, val);
 }
 
 std::ostream &Banshee::output(std::ostream &o)

@@ -15,13 +15,14 @@ public:
     void addEvidence(std::shared_ptr<Evidence>);
     void setRoom(std::shared_ptr<Room>);
     std::shared_ptr<Evidence> createEvidence();
-    void sharedEvidence(std::shared_ptr<Hunter> h);
+    void shareEvidence(std::shared_ptr<Hunter> h);
     void update();
     std::thread spawn();
     std::string &getName();
     EvidenceType getType();
     void clear();
-
+    bool hasGhostly();
+    std::unordered_set<std::shared_ptr<Evidence>> getEvidence();
 private:
     std::string name;
     EvidenceType type;

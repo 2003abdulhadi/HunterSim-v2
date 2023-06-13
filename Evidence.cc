@@ -25,3 +25,23 @@ EvidenceType Evidence::getType()
 {
     return type;
 }
+
+std::string Evidence::typeToString()
+{
+    switch (type)
+    {
+    case EMF:
+        return "EMF";
+    case TEMPERATURE:
+        return "TEMPERATURE";
+    case SOUND:
+        return "SOUND";
+    case FINGERPRINTS:
+        return "FINGERPRINTS";
+    }
+}
+
+std::ostream &operator<<(std::ostream &o, Evidence &e)
+{
+    return o << e.typeToString() << " Evidence: " << e.value;
+}
