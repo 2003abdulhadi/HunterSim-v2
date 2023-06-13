@@ -3,6 +3,7 @@
 
 #include "Ghost.h"
 
+/// @brief Poltergeist is an implementation of ghost that only creates EMF, TEMPERATURE, and FINGERPRINT evidence
 class Poltergeist : public Ghost
 {
 public:

@@ -3,6 +3,7 @@
 
 #include "Ghost.h"
 
+/// @brief Phantom is an implementation of ghost that only creates TEMPERATURE, FINGERPRINT, and SOUND evidence
 class Phantom : public Ghost
 {
 public:

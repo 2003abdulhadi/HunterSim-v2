@@ -3,6 +3,7 @@
 
 #include "Ghost.h"
 
+/// @brief Bullies is an implementation of ghost that only creates EMF, FINGERPRINT, and SOUND evidence
 class Bullies : public Ghost
 {
 public:

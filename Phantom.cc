@@ -41,6 +41,9 @@ std::shared_ptr<Evidence> Phantom::createEvidence()
         lower = 65;
         upper = 75;
         break;
+    default:
+        lower = 0;
+        upper = 0;
     }
 
     std::uniform_real_distribution<float> valDist(lower, upper);

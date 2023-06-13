@@ -3,6 +3,7 @@
 
 #include "Ghost.h"
 
+/// @brief Banshee is an implementation of ghost that only creates EMF, TEMPERATURE, and SOUND evidence
 class Banshee : public Ghost
 {
 public:

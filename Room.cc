@@ -45,9 +45,9 @@ void Room::connectRoom(std::shared_ptr<Room> r)
 bool Room::shareEvidence(std::string h)
 {
     bool ghostly = false;
-    if(!hunters.count(h))
+    if (!hunters.count(h))
         return false;
-    
+
     std::shared_ptr<Hunter> hunter = hunters.at(h);
     for (auto &e : evidence)
     {
@@ -58,8 +58,8 @@ bool Room::shareEvidence(std::string h)
                 ghostly = true;
         }
     }
-    for(auto &e : hunter->getEvidence())
-        if(evidence.count(e))
+    for (auto &e : hunter->getEvidence())
+        if (evidence.count(e))
             evidence.erase(e);
     return ghostly;
 }

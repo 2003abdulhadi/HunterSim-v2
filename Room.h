@@ -6,28 +6,36 @@
 #include "Ghost.h"
 #include "Hunter.h"
 
+/// @brief Room class defines a room with methods to interact with the adjacent rooms, hunters, ghost and evidence
 class Room
 {
     friend std::ostream &operator<<(std::ostream &, Room &);
+
 public:
     Room(std::string);
     ~Room();
-    void addEvidence(std::shared_ptr<Evidence>);
-    void addHunter(std::shared_ptr<Hunter>);
-    std::shared_ptr<Hunter> removeHunter(std::string);
-    void addGhost(std::shared_ptr<Ghost>);
-    std::shared_ptr<Ghost> removeGhost();
+
     void connectRoom(std::shared_ptr<Room>);
-    bool shareEvidence(std::string);
     std::vector<std::weak_ptr<Room>> &getRooms();
     std::string &getName();
     std::weak_ptr<Room> getRandRoom();
-    std::shared_ptr<Hunter> getRandHunter();
-    bool hasGhost();
+
+    void addHunter(std::shared_ptr<Hunter>);
+    std::shared_ptr<Hunter> removeHunter(std::string);
     int hasHunter();
+    std::shared_ptr<Hunter> getRandHunter();
+    bool shareEvidence(std::string);
+
+    void addGhost(std::shared_ptr<Ghost>);
+    std::shared_ptr<Ghost> removeGhost();
+    bool hasGhost();
+
+    void addEvidence(std::shared_ptr<Evidence>);
     bool hasEvidence();
+
     bool lockRoom();
     void unlockRoom();
+
     void clear();
 
 private:

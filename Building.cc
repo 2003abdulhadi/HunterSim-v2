@@ -42,14 +42,14 @@ const std::shared_ptr<Room> &Building::getRandRoom()
 {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, rooms.size()-1);
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, rooms.size() - 1);
     int i, j;
     i = 0;
     j = dist(rng);
-    for(const auto& r : rooms)
+    for (const auto &r : rooms)
     {
         i++;
-        if(i == j)
+        if (i == j)
             return r.second;
     }
     return rooms.begin()->second;
@@ -57,10 +57,10 @@ const std::shared_ptr<Room> &Building::getRandRoom()
 
 void Building::printRooms()
 {
-    for(const auto& r : rooms)
+    for (const auto &r : rooms)
     {
         std::cout << r.first << " - connects to:" << std::endl;
-        for(const auto& a : r.second->getRooms())
+        for (const auto &a : r.second->getRooms())
         {
             std::cout << a.lock()->getName() << std::endl;
         }
@@ -70,18 +70,18 @@ void Building::printRooms()
 
 void Building::printCharacters()
 {
-    std::cout<< *ghost << std::endl;
-    for(const auto& h : hunters)
+    std::cout << *ghost << std::endl;
+    for (const auto &h : hunters)
         std::cout << *(h.second) << std::endl;
 }
 
 void Building::clear()
 {
-    for(const auto& r : rooms)
+    for (const auto &r : rooms)
     {
         r.second->clear();
     }
-    for(const auto& h : hunters)
+    for (const auto &h : hunters)
     {
         h.second->clear();
     }

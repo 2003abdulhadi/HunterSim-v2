@@ -41,6 +41,9 @@ std::shared_ptr<Evidence> Poltergeist::createEvidence()
         lower = 1;
         upper = 1;
         break;
+    default:
+        lower = 0;
+        upper = 0;
     }
 
     std::uniform_real_distribution<float> valDist(lower, upper);

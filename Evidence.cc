@@ -26,9 +26,9 @@ EvidenceType Evidence::getType()
     return type;
 }
 
-std::string Evidence::typeToString()
+std::string Evidence::typeToString(EvidenceType e)
 {
-    switch (type)
+    switch (e)
     {
     case EMF:
         return "EMF";
@@ -38,10 +38,12 @@ std::string Evidence::typeToString()
         return "SOUND";
     case FINGERPRINTS:
         return "FINGERPRINTS";
+    default:
+        return "";
     }
 }
 
 std::ostream &operator<<(std::ostream &o, Evidence &e)
 {
-    return o << e.typeToString() << " Evidence: " << e.value;
+    return o << Evidence::typeToString(e.type) << " Evidence: " << e.value;
 }

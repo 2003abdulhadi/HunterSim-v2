@@ -5,18 +5,19 @@
 
 #include "defs.h"
 
+/// @brief Evidence class defines a simple data type with a name and a value
 class Evidence
 {
-    friend std::ostream& operator<<(std::ostream& o, Evidence& e);
+    friend std::ostream &operator<<(std::ostream &o, Evidence &e);
 
 public:
     Evidence(EvidenceType, float);
     ~Evidence();
     bool isGhostly();
     EvidenceType getType();
+    static std::string typeToString(EvidenceType);
 
 private:
-    std::string typeToString();
     EvidenceType type;
     float value;
 };

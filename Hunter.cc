@@ -65,13 +65,19 @@ void Hunter::update()
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, 2);
-    int i = 0;
+
+    std::cout << "Hunter " << name << " beginning in the " << room->getName() << ". Type: " << Evidence::typeToString(type) << std::endl;
+
     while (boredom > 0)
     {
-        if (uniqueGhostly >= 3)
-            return;
-        if (room->hasGhost())
+        if (uniqueGhostly >= 3) // win condition
         {
+            std::cout << name << " has collected 3 pieces of ghostly evidence and is leaving the building!" << std::endl;
+            return;
+        }
+        if (room->hasGhost()) // special interactions while ghost is present
+        {
+            std::cout << name << " is in the " << room->getName() << " with the ghost!" << std::endl;
             if (fear < 100)
             {
                 fear++;
@@ -79,42 +85,51 @@ void Hunter::update()
             }
             else
             {
+                std::cout << name << " has gotten too scared and is leaving the building!" << std::endl;
                 return;
             }
         }
         std::shared_ptr<Room> curr, next;
         switch (dist(rng))
         {
-
-        case 0:
+        case 0: // collect or create evidence
             if (room->lockRoom())
             {
                 if (room->hasEvidence())
                 {
                     if (room->shareEvidence(name))
+                    {
+                        std::cout << name << " has collected some GHOSTLY evidence!" << std::endl;
                         boredom = BOREDOM_MAX;
+                    }
+                    else
+                        std::cout << name << " has collected some evidence." << std::endl;
                 }
                 else
+                {
                     room->addEvidence(createEvidence());
+                    std::cout << name << " has created some evidence and left it in the " << room->getName() << std::endl;
+                }
+                room->unlockRoom();
             }
             break;
 
-        case 1:
+        case 1: // move rooms
             curr = room;
             next = room->getRandRoom().lock();
             if (curr->lockRoom() && next->lockRoom())
             {
                 next->addHunter(curr->removeHunter(name));
                 setRoom(next);
+                std::cout << name << " has moved from the " << curr->getName() << " to the " << next->getName() << std::endl;
             }
             next->unlockRoom();
             curr->unlockRoom();
 
             break;
 
-        case 2:
-            // communiucating
-            if (room->hasHunter() > 1)
+        case 2: // share evidence
+            if (room->lockRoom() && room->hasHunter() > 1)
             {
                 std::shared_ptr<Hunter> temp = room->getRandHunter();
                 while (temp->name == name)
@@ -122,11 +137,16 @@ void Hunter::update()
                     temp = room->getRandHunter();
                 }
                 shareEvidence(temp);
+
+                std::cout << name << " has shared evidence with " << temp->name << std::endl;
+
+                room->unlockRoom();
             }
             break;
         }
         boredom--;
-        std::this_thread::sleep_for(100ms);
+        std::cout << std::endl;
+        std::this_thread::sleep_for(1s);
     }
 }
 
